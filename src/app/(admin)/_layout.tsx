@@ -1,57 +1,57 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
+import { Link, Redirect, Tabs } from 'expo-router';
 import { Pressable } from 'react-native';
-
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import { useAuth } from '@/providers/AuthProvider';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import TabOneScreen from '.';
+import createEmployee from './employee/create';
+import EmployeeList from './employee';
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+
 }
+
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { isAdmin } = useAuth()
+
+  if (!isAdmin) {
+    return <Redirect href={'/'} />
+  }
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
+          title: 'Home',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="employee"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Employes',
+          headerShown:false
+        }}
+      />
+      <Tabs.Screen
+        name="leaves"
+        options={{
+          title: 'Leave Requests',
         }}
       />
     </Tabs>
