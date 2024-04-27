@@ -45,13 +45,15 @@ export default function TabLayout() {
         name="employee"
         options={{
           title: 'Employes',
-          headerShown:false
+          headerShown: false
         }}
       />
       <Tabs.Screen
         name="leaves"
         options={{
           title: 'Leave Requests',
+          tabBarButton: (props) => null, //like this
+          tabBarStyle: { display: 'none' }
         }}
       />
     </Tabs>

@@ -8,7 +8,7 @@ export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <Link href={'/(admin)/employee'}>
-        <Button icon="" mode="contained">
+        <Button icon="" style={styles.buttonStyle} mode="contained">
           Employee List
         </Button>
 
@@ -19,15 +19,24 @@ export default function TabOneScreen() {
           Leave Requests
         </Button>
       </Link>
+
+      <Link href={'/(admin)/leaves/addCompantLeaves'}>
+        <Button icon="" mode="contained">
+          Add Company Leaves
+        </Button>
+      </Link>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-      flexDirection: "row",
+      // flexDirection: "row",
       justifyContent: "space-around",
-      height:"20%",
+      height:"100%",
       alignItems: 'center'
+  },
+  buttonStyle:{
+    height:'50%'
   }
 })

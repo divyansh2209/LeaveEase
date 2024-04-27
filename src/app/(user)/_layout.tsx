@@ -12,6 +12,7 @@ import { useAuth } from '@/providers/AuthProvider';
 import TabOneScreen from './index';
 import RequestList from './leaves/[id]';
 import LeavesCreate from './leavesCreate';
+import CalendarIndex from './calendar';
 
 // Create a bottom tab navigator
 const Tab = createBottomTabNavigator();
@@ -48,17 +49,26 @@ export default function TabLayout() {
 
       <Tab.Screen
         name="leaves"
-        component={RequestList} 
+        component={RequestList}
         options={{
           title: 'Leave Request',
-          headerShown: false
+          tabBarButton: (props) => null, //like this
+          tabBarStyle: { display: 'none' }
+        }}
+      />
+
+<Tab.Screen
+        name="calendar"
+        component={CalendarIndex}
+        options={{
+          title: 'Calendar'
         }}
       />
 
 
       <Tab.Screen
         name="createRequest"
-        component={LeavesCreate} 
+        component={LeavesCreate}
         options={{
           title: 'create',
           headerShown: false

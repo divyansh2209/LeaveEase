@@ -71,7 +71,6 @@ export const useRequestListByReqId = (reqId: number) => {
 }
 
 export const useInsertRequest = () => {
-
     return useMutation({
         async mutationFn(data: any) {
             const { error, data: newRequest } = await supabase.from('leaveRequests').insert({
@@ -93,8 +92,46 @@ export const useInsertRequest = () => {
     })
 }
 
-export const useStatusChange = () => {
 
+export const useInsertCompantLeaves = () => {
+    return useMutation({
+        async mutationFn(data: any) {
+            const { error, data: newLeaves } = await supabase.from('companyLeaves').insert({
+                title: data.title,
+                start_date: data.start_date,
+                end_date: data.end_date,
+                image: data.image
+            })
+                .single()
+
+            if (error) {
+                throw new Error(error.message);
+            }
+            return newLeaves
+        }
+    })
+}
+
+
+export const useCompanyLeaves = () => {
+    return useQuery({
+        queryKey: ['CompanyLeaves'],
+        queryFn: async () => {
+            const { data, error } = await supabase.from('companyLeaves')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                throw new Error(error.message);
+            }
+            return data
+        }
+    })
+}
+
+
+
+export const useStatusChange = () => {
     return useMutation({
         async mutationFn(data: any) {
             const { error, data: updatedRequest } = await supabase
