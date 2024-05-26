@@ -30,7 +30,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     useEffect(() => {
         const fetchSession = async () => {
             const {data: { session }} = await supabase.auth.getSession();
-            console.log(session)
+            console.log("session :   ",session)
 
             setSession(session);     
 

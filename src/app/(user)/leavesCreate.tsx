@@ -1,24 +1,31 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Picker } from '@react-native-picker/picker'; // Import Picker from the package
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useInsertRequest } from '@/api/requests';
 import { useAuth } from '@/providers/AuthProvider';
 import { useRouter } from 'expo-router';
+import FontSize from '@/constants/FontSize';
+
+import Colors from '../../constants/Colors';
+import Spacing from "../../constants/Spacing";
+import Font from "../../constants/Font";
+import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const LeavesCreate = () => {
-    const { control, handleSubmit, reset , formState: { errors } } = useForm();
+    const { control, handleSubmit, reset, formState: { errors } } = useForm();
 
     const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
     const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
     const [selectedDate, setSelectedDate] = useState('Select Date')
     const [selectedEndDate, setSelectedEndDate] = useState('Select Date')
-    const {mutate:insertRequest} = useInsertRequest();
-    const {profile} = useAuth();
+    const { mutate: insertRequest } = useInsertRequest();
+    const { profile } = useAuth();
     const router = useRouter();
-    
+
 
     const showDatePicker = () => {
         setStartDatePickerVisibility(true);
@@ -56,7 +63,7 @@ const LeavesCreate = () => {
 
     const onSubmit = (data: Date) => {
         console.log(data);
-        console.log(selectedDate)        
+        console.log(selectedDate)
         console.log(selectedEndDate)
         const newRequest = {
             title: data.title,
@@ -64,11 +71,11 @@ const LeavesCreate = () => {
             message: data.message,
             userId: profile.id,
             start_date: selectedDate,
-            end_date:  selectedEndDate
-        } 
-        console.log(newRequest)       
+            end_date: selectedEndDate
+        }
+        console.log(newRequest)
 
-        insertRequest(newRequest , {
+        insertRequest(newRequest, {
             onSuccess: () => {
                 reset();
                 router.back();
@@ -79,6 +86,11 @@ const LeavesCreate = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <View style={{
+                marginTop:Spacing*2
+            }}>
+                <Text style={styles.heading}> New Leave Request </Text>
+            </View>
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>Title</Text>
                 <Controller
@@ -140,33 +152,71 @@ const LeavesCreate = () => {
                 />
             </View>
 
-            <View style={{ marginBottom: 20 }}>
-                <Text style={styles.label}>Start Date:</Text>
-                <TouchableOpacity onPress={() => showDatePicker()} style={{ width: '50%', height: 50, borderWidth: .5, borderRadius: 20, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
-                    <Text>{selectedDate}</Text>
-                </TouchableOpacity>
-                <DateTimePickerModal
-                    isVisible={isStartDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
-                />
+            <View style={styles.inputContainer}>
+                <View style={{ marginBottom: 20 }}>
+                    <Text style={styles.label}>Start Date:</Text>
+                    <TouchableOpacity onPress={() => showDatePicker()} style={{ width: '50%', height: 50, borderWidth: .5, borderRadius: 20, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text>{selectedDate}</Text>
+                    </TouchableOpacity>
+                    <DateTimePickerModal
+                        isVisible={isStartDatePickerVisible}
+                        mode="date"
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                    />
+                </View>
             </View>
 
-            <View style={{ marginBottom: 20 }}>
-                <Text style={styles.label}>End Date:</Text>
-                <TouchableOpacity onPress={() => showEndDatePicker()} style={{ width: '50%', height: 50, borderWidth: .5, borderRadius: 20, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
-                    <Text>{selectedEndDate}</Text>
-                </TouchableOpacity>
-                <DateTimePickerModal
-                    isVisible={isEndDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleEndConfirm}
-                    onCancel={hideEndDatePicker}
-                />
+            <View style={styles.inputContainer}>
+                <View style={{ marginBottom: 20 }}>
+                    <Text style={styles.label}>End Date:</Text>
+                    <TouchableOpacity onPress={() => showEndDatePicker()} style={{ width: '50%', height: 50, borderWidth: .5, borderRadius: 20, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text>{selectedEndDate}</Text>
+                    </TouchableOpacity>
+                    <DateTimePickerModal
+                        isVisible={isEndDatePickerVisible}
+                        mode="date"
+                        onConfirm={handleEndConfirm}
+                        onCancel={hideEndDatePicker}
+                    />
+                </View>
             </View>
 
+
+            <TouchableOpacity
+                style={{
+                    padding: Spacing * 1.5,
+                    backgroundColor: Colors.primary,
+                    // marginVertical: Spacing,
+                    borderRadius: Spacing,
+                    shadowColor: Colors.primary,
+                    shadowOffset: {
+                        width: 0,
+                        height: Spacing,
+                    },
+                    shadowOpacity: 0.3,
+                    shadowRadius: Spacing,
+                    marginBottom:Spacing*2
+                }}
+            >
+                <Text onPress={handleSubmit(onSubmit)}
+                    style={{
+                        color: Colors.onPrimary,
+                        textAlign: "center",
+                        fontSize: FontSize.large,
+                    }}
+                >
+                    Send
+                </Text>
+            </TouchableOpacity>
+
+
+
+
+            {/* <View style={{marginBottom:0}}>
             <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+            </View> */}
+
         </SafeAreaView>
     );
 };
@@ -176,6 +226,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         padding: 10,
+        backgroundColor: "white",
+    },
+    heading: {
+        fontSize: FontSize.xLarge,
+        fontWeight: "bold",
+        marginBottom: 30
     },
     image: {
         width: '50%',
@@ -193,15 +249,18 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 10,
         borderRadius: 5,
-        marginTop: 5,
+        marginTop: 4,
         marginBottom: 20,
+        borderBottomWidth:1,
+        borderBottomColor:'#adb5bd'
     },
     label: {
         color: 'gray',
         fontSize: 16,
     },
     inputContainer: {
-        marginBottom: 20,
+        marginBottom: 8,
+        paddingHorizontal: 20
     },
     errorText: {
         color: 'red',
@@ -212,7 +271,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 5,
-        padding: 10,
+        padding: 6,
     },
 });
 export default LeavesCreate;

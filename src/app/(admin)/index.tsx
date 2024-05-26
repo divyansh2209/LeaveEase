@@ -1,42 +1,98 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { Link } from 'expo-router';
 import { Button } from 'react-native-paper';
 
 
+import Colors from '../../constants/Colors';
+import Spacing from "../../constants/Spacing";
+import FontSize from "../../constants/FontSize";
+import Font from "../../constants/Font";
+import { Ionicons } from "@expo/vector-icons";
+
+
+
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-      <Link href={'/(admin)/employee'}>
-        <Button icon="" style={styles.buttonStyle} mode="contained">
+
+      <Link
+        href={'/(admin)/employee'}
+        style={styles.link}
+      >
+        <Text
+          style={{
+            color: Colors.onPrimary,
+            textAlign: "center",
+            fontSize: FontSize.large,
+            fontWeight:"bold"
+          }}
+        >
           Employee List
-        </Button>
-
+        </Text>
       </Link>
 
-      <Link href={'/(admin)/leaves/list'}>
-        <Button icon="" mode="contained">
+
+      <Link
+        href={'/(admin)/leaves/list'}
+        style={styles.link}
+      >
+        <Text
+          style={{
+            color: Colors.onPrimary,
+            textAlign: "center",
+            fontSize: FontSize.large,
+            fontWeight:"bold"
+          }}
+        >
           Leave Requests
-        </Button>
+        </Text>
       </Link>
 
-      <Link href={'/(admin)/leaves/addCompantLeaves'}>
-        <Button icon="" mode="contained">
+      <Link
+        href={'/(admin)/leaves/addCompantLeaves'}
+        style={styles.link}
+      >
+        <Text
+          style={{
+            color: Colors.onPrimary,
+            textAlign: "center",
+            fontSize: FontSize.large,
+            fontWeight:"bold"
+          }}
+        >
           Add Company Leaves
-        </Button>
+        </Text>
       </Link>
+
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-      // flexDirection: "row",
-      justifyContent: "space-around",
-      height:"100%",
-      alignItems: 'center'
+    justifyContent: "space-around",
+    height: "100%",
+    alignItems: 'center'
   },
-  buttonStyle:{
-    height:'50%'
+  buttonStyle: {
+    height: '50%',
+  },
+  link: {
+    height:"30%",
+    width:"80%",
+    padding: Spacing * 2,
+    backgroundColor: "#0496ff",
+    borderRadius: Spacing*3,
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: Spacing,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: Spacing,
+    textAlign: "center",
+    
   }
 })

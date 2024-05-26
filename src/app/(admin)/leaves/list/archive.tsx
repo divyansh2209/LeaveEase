@@ -1,31 +1,56 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import leaveReq from '@assets/data/leaveRequests'
-import LeaveListItem from '@/components/LeaveListItem'
-import { supabase } from '@/lib/supabase'
-import { useQuery } from '@tanstack/react-query'
-import { useRequestListArchive } from '@/api/requests'
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import LeaveListItem from '@/components/LeaveListItem';
+import { useRequestListArchive } from '@/api/requests';
 
-const index = () => {
+const RequestListScreen = () => {
     const { data: requests, error, isLoading } = useRequestListArchive();
+
     if (isLoading) {
-        return <ActivityIndicator />
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
     }
+
     if (error) {
-        return <Text>Failed to fetch products</Text>
+        return (
+            <View style={styles.centered}>
+                <Text style={styles.errorText}>Failed to fetch requests</Text>
+            </View>
+        );
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <FlatList
                 data={requests}
-                renderItem={({ item }) => <LeaveListItem request={item}></LeaveListItem>}
-                // numColumns={2}
-                contentContainerStyle={{ gap: 10, padding: 10 }}
-            // columnWrapperStyle={{ gap: 10 }}
+                renderItem={({ item }) => <LeaveListItem request={item} />}
+                keyExtractor={(item) => item.id.toString()}
+                contentContainerStyle={styles.listContainer}
             />
         </View>
-    )
-}
+    );
+};
 
-export default index
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 10,
+        backgroundColor: '#f0f0f0',
+    },
+    listContainer: {
+        gap: 10,
+    },
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorText: {
+        color: 'red',
+    },
+});
+
+export default RequestListScreen;

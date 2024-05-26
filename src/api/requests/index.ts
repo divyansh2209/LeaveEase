@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useRequestListActive = () => {
     return useQuery({
@@ -25,7 +25,7 @@ export const useRequestListArchive = () => {
         queryFn: async () => {
             const { data, error } = await supabase.from('leaveRequests')
                 .select('*')
-                .in('status', ['Approved', 'Rejected'])
+                .in('status', ['approved', 'rejected'])
                 .order('created_at', { ascending: false });
             if (error) {
                 throw new Error(error.message);
@@ -132,6 +132,7 @@ export const useCompanyLeaves = () => {
 
 
 export const useStatusChange = () => {
+    const queryClient = useQueryClient();
     return useMutation({
         async mutationFn(data: any) {
             const { error, data: updatedRequest } = await supabase
@@ -153,7 +154,13 @@ export const useStatusChange = () => {
             if (error) {
                 throw new Error(error.message);
             }
+            
             return updatedRequest
-        }
+        },
+        onSuccess: () => {
+            // Invalidate the LeaveRequestsActive query to trigger a refetch
+            queryClient.invalidateQueries(['LeaveRequestsActive']);
+            queryClient.invalidateQueries(['LeaveRequestsArchive']);
+        },
     })
 }

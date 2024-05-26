@@ -38,14 +38,15 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
       <Tabs.Screen
         name="employee"
         options={{
           title: 'Employes',
-          headerShown: false
+          headerShown: false,
+          tabBarIcon: ({ color }) => <TabBarIcon name="male" color={color} />,
         }}
       />
       <Tabs.Screen
@@ -53,7 +54,7 @@ export default function TabLayout() {
         options={{
           title: 'Leave Requests',
           tabBarButton: (props) => null, //like this
-          tabBarStyle: { display: 'none' }
+          
         }}
       />
     </Tabs>

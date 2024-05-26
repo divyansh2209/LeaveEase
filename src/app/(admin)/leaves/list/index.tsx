@@ -5,13 +5,22 @@ import { useRequestListActive } from '@/api/requests'
 import AdminLeaveRequestItem from '@/components/AdminLeaveRequestItem'
 
 const index = () => {
-    const { data:requests , error, isLoading } = useRequestListActive();
+    const { data: requests, error, isLoading } = useRequestListActive();
 
     if (isLoading) {
-        return <ActivityIndicator />
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
     }
+
     if (error) {
-        return <Text>Failed to fetch products</Text>
+        return (
+            <View style={styles.centered}>
+                <Text style={styles.errorText}>Failed to fetch requests</Text>
+            </View>
+        );
     }
 
     // console.log(data)
@@ -26,5 +35,24 @@ const index = () => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 10,
+        backgroundColor: '#f0f0f0',
+    },
+    listContainer: {
+        gap: 10,
+    },
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorText: {
+        color: 'red',
+    },
+});
 
 export default index

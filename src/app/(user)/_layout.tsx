@@ -43,7 +43,8 @@ export default function TabLayout() {
         name="index"
         component={TabOneScreen}
         options={{
-          title: 'User Home',
+          title: 'Home',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
 
@@ -53,7 +54,8 @@ export default function TabLayout() {
         options={{
           title: 'Leave Request',
           tabBarButton: (props) => null, //like this
-          tabBarStyle: { display: 'none' }
+          tabBarStyle: { display: 'none' },
+          
         }}
       />
 
@@ -61,7 +63,8 @@ export default function TabLayout() {
         name="calendar"
         component={CalendarIndex}
         options={{
-          title: 'Calendar'
+          title: 'Calendar',
+          tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
         }}
       />
 
@@ -71,7 +74,8 @@ export default function TabLayout() {
         component={LeavesCreate}
         options={{
           title: 'create',
-          headerShown: false
+          headerShown: false,
+          tabBarIcon: ({ color }) => <TabBarIcon name="plus" color={color} />,
         }}
       />
 

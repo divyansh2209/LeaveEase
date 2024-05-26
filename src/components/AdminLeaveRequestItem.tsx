@@ -5,6 +5,15 @@ import { LeaveRequest } from '@/types';
 import Button from './Button';
 import Chip from './Chip';
 
+
+import Colors from '../constants/Colors';
+import Spacing from "../constants/Spacing";
+import FontSize from "../constants/FontSize";
+import Font from "../constants/Font";
+import { Ionicons } from "@expo/vector-icons";
+
+
+
 type LeaveListItemProps = {
     request: LeaveRequest;
 };
@@ -52,21 +61,65 @@ const AdminLeaveRequestItem = ({ request }: LeaveListItemProps) => {
     return (
         <View style={styles.container}>
 
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-                Time Left: {hours} hours {minutes} minutes {seconds} seconds
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
+                <Text style={styles.title}>{request.title}</Text>
+                <Chip backgroundColor='#ffc300' text={request.status} />
+            </View>
+
+
+            <Text style={{ fontSize: FontSize.medium }}>
+                <Text style={{ color: Colors.primary, fontWeight: "bold" }}>Time Left: </Text>
+                {hours} hrs {minutes} min {seconds} sec
             </Text>
 
 
-            <Chip backgroundColor='#ffc300' text={request.status} />
-            <Text style={styles.price}>{request.id}</Text>
-            <Text style={styles.title}>{request.title}</Text>
-            <Text style={styles.price}>Leave type: {request.type}</Text>
-            <Text style={styles.title}>Message: {request.message}</Text>
-            <Text style={styles.title}> user Id: {request.userId}</Text>
-            <Text style={styles.title}>Date: <Text style={styles.dates}> {request.start_date}</Text>  to  <Text style={styles.dates}>{request.end_date} </Text>  </Text>
+            {/* <Text style={styles.price}>{request.id}</Text> */}
+            <View style={styles.rowContainer}>
+                <Text ><Text style={{ color: Colors.primary, fontWeight: "bold" }}>Leave Type: </Text>{request.type}</Text>
+            </View>
 
-            <Link href={`/(admin)/leaves/${request.id}`} >
+            <View style={styles.rowContainer}>
+                <Text ><Text style={{ color: Colors.primary, fontWeight: "bold" }}>Employee ID: </Text>{request.userId}</Text>
+            </View>
+
+            <View style={styles.rowContainer}>
+                <Text ><Text style={{ color: Colors.primary, fontWeight: "bold" }}>Time Left: </Text><Text style={styles.dates}> {request.start_date}</Text>  to  <Text style={styles.dates}>{request.end_date} </Text>  </Text>
+            </View>
+
+            <View style={styles.rowContainer}>
+                <Text><Text style={{ color: Colors.primary, fontWeight: "bold" }}>Message: </Text>{request.message}</Text>
+            </View>
+
+            {/* <Link href={`/(admin)/leaves/${request.id}`} >
                 Details
+            </Link> */}
+
+            <Link
+                href={`/(admin)/leaves/${request.id}`}
+                style={{
+                    padding: Spacing,
+                    backgroundColor: Colors.primary,
+                    marginVertical: Spacing,
+                    borderRadius: Spacing,
+                    shadowColor: Colors.primary,
+                    shadowOffset: {
+                        width: 0,
+                        height: Spacing,
+                    },
+                    shadowOpacity: 0.3,
+                    shadowRadius: Spacing,
+                    textAlign: "center",
+                }}
+            >
+                <Text
+                    style={{
+                        color: Colors.onPrimary,
+                        textAlign: "center",
+                        fontSize: FontSize.medium,
+                    }}
+                >
+                    Read More
+                </Text>
             </Link>
 
         </View>
@@ -90,15 +143,19 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontSize: 18,
-        fontWeight: '600',
-        marginVertical: 10,
+        fontSize: FontSize.large,
+        fontWeight: 'bold',
+        marginVertical: 3,
     },
     price: {
 
         fontWeight: 'bold',
     },
     dates: {
-        color: "blue"
+        color: "red"
+    },
+    rowContainer:{
+        marginVertical:5
     }
+    
 });

@@ -67,7 +67,7 @@ const createCompantLeaves = () => {
     };
 
     const onSubmit = async (data) => {
-        console.log(data);
+        console.log( "DATAAA: " , data);
         console.log(selectedDate)
         console.log(selectedEndDate)
 
@@ -78,7 +78,7 @@ const createCompantLeaves = () => {
             end_date: selectedEndDate,
             image: imagePath
         }
-        console.log(newRequest)
+        console.log("NEWLEAVE:" , newRequest)
 
         insertLeave(newRequest, {
             onSuccess: () => {

@@ -11,7 +11,7 @@ const Index = () => {
         return <ActivityIndicator />
     }
     if (!session) {
-        return <Redirect href={'/sign-in'} />
+        return <Redirect href={'/(auth)'} />
     }
 
     if(!isAdmin){

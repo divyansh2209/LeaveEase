@@ -1,15 +1,23 @@
-import { StyleSheet, Text, View, Dimensions, useWindowDimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, useWindowDimensions, Image, TouchableOpacity } from 'react-native';
 import * as React from 'react';
 import { Link } from 'expo-router';
-import { ActivityIndicator, Button } from 'react-native-paper';
+import { ActivityIndicator } from 'react-native-paper';
 import { useAuth } from '@/providers/AuthProvider';
 import Carousel from 'react-native-reanimated-carousel';
 import Slider from '@/components/Slider';
 import { useCompanyLeaves } from '@/api/requests';
 
+import Colors from '../../constants/Colors';
+import Spacing from "../../constants/Spacing";
+import FontSize from "../../constants/FontSize";
+
+import { supabase } from '@/lib/supabase';
+
+import Button from '../../components/Button';
+
 export default function TabOneScreen() {
   const { profile } = useAuth();
-  const id = profile.id;
+  const id = profile?.id;
 
   const { data: requests, error, isLoading } = useCompanyLeaves();
 
@@ -32,18 +40,40 @@ export default function TabOneScreen() {
 
   return (
     <View style={{ flex: 1, justifyContent: "space-between" }}>
-
+      
       <View>
 
+        <Link
+          href={`/(user)/leaves/${id}`}
+          style={{
+            padding: Spacing * 2,
+            backgroundColor: Colors.primary,
+            marginVertical: Spacing * 2,
+            marginHorizontal: Spacing * 3,
+            borderRadius: Spacing * 2,
+            shadowColor: Colors.primary,
+            shadowOffset: {
+              width: 0,
+              height: Spacing,
+            },
+            shadowOpacity: 0.3,
+            shadowRadius: Spacing,
+            textAlign: "center"
+          }}
+        >
+          <Text
+            style={{
+              color: Colors.onPrimary,
+              textAlign: "center",
+              fontSize: FontSize.large,
+            }}
+          >
+            My Leave Requests
+          </Text>
+        </Link>
 
-        <View style={styles.flexContainer}>
-          <Link href={`/(user)/leaves/${id}`}>
-            <Button mode="contained">
-              My Leave Requests
-            </Button>
-          </Link>
-        </View>
 
+        {/* <Button onPress={() => supabase.auth.signOut()} text='Signout'></Button> */}
 
 
         <View style={styles.summaryContainer}>
